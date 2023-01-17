@@ -26,3 +26,7 @@ extension RandomRoll<T> on Map<double, T> {
 
   double _sum() => keys.reduce((a, c) => a + c);
 }
+
+Future<void> waitMS(int ms) async {
+  await Future.delayed(Duration(milliseconds: ms));
+}

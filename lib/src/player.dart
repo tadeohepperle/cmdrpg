@@ -21,6 +21,15 @@ class Player {
   Weapon get activeWeapon => _activeWeapon;
 
   final Weapon _activeWeapon = Weapons.shortSword;
+
+  void takeDamage(int dmg) {
+    lp -= dmg;
+    if (lp < 0) {
+      lp = 0;
+    }
+  }
+
+  bool get dead => lp <= 0;
 }
 
 const int startingSkillPoints = 10;

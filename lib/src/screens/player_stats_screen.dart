@@ -20,7 +20,8 @@ SKILLS:
   ${blue("daggers")}: ${yellow(player.skills[Skill.dagger].toString())}                            
  ${blue("throwing")}: ${yellow(player.skills[Skill.throwing].toString())}        
  ${blue("reflexes")}: ${yellow(player.skills[Skill.reflexes].toString())}                      
-                                  
+
+${playerMiniatureDisplay(world)}                           
 $separationLine
 [Q] to close screen
 [1] invest ${green("1XP")} to increase ${blue("search")}
@@ -30,7 +31,7 @@ $separationLine
   }
 
   @override
-  Screen transitionOnInput(KeyCode keyCode, World world) {
+  Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
     if (keyCode == KeyCode.q || keyCode == KeyCode.esc) {
       return previousScreen;
     }

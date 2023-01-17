@@ -5,7 +5,7 @@ import '../renderer.dart';
 import '../screen.dart';
 import 'exploration_screen.dart';
 
-class StartScreen implements Screen {
+class StartScreen extends Screen {
   @override
   String imageToRender(World world) {
     final screen = r"""
@@ -36,9 +36,9 @@ class StartScreen implements Screen {
   }
 
   @override
-  Screen transitionOnInput(KeyCode keyCode, World world) {
+  Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
     if (keyCode == KeyCode.space) {
-      return ExplorationScreen.random();
+      return await ExplorationScreen.random(world);
     }
 
     return this;

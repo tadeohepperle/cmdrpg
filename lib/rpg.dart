@@ -16,7 +16,7 @@ class World {
     player = Player(playerName);
   }
 
-  bool dayIsOver() => _dayHour >= 20;
+  bool dayIsOver() => _dayHour >= 8;
 
   void goToNextDay() {
     _dayHour = 7;
@@ -35,9 +35,10 @@ void runGame() async {
   final playerName = "Adventurer";
   World world = World.newRandom(playerName);
   Screen screen = StartScreen();
+  decorateScreenAndRender(screen.imageToRender(world));
   while (true) {
-    decorateScreenAndRender(screen.imageToRender(world));
     KeyCode key = waitForKey();
-    screen = screen.transitionOnInput(key, world);
+    screen = await screen.transitionOnInput(key, world);
+    decorateScreenAndRender(screen.imageToRender(world));
   }
 }

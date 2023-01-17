@@ -4,7 +4,7 @@ import 'package:rpg/src/renderer.dart';
 import 'package:rpg/src/screen.dart';
 import 'package:rpg/src/sprites.dart';
 
-class DeathScreen implements Screen {
+class DeathScreen extends Screen {
   @override
   String imageToRender(World world) {
     String screen = """
@@ -23,7 +23,7 @@ He only lived for ${world.day}  ${world.day > 1 ? "days" : "day"}.
   }
 
   @override
-  Screen transitionOnInput(KeyCode keyCode, World world) {
+  Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
     return this;
   }
 }

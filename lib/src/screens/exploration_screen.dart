@@ -9,57 +9,90 @@ import 'package:rpg/src/utils.dart';
 
 import '../renderer.dart';
 
-class ExplorationScreen implements Screen {
+const animationFrameTime = 100;
+
+class ExplorationScreen extends Screen {
   String environmentSprite = "";
+  int shift = -30;
   String? message;
-  ExplorationScreen.random() {
+  bool interactive = false;
+
+  ExplorationScreen._random() {
     environmentSprite =
         [tree1, tree2, tree3, tree4, tree5, tree6, mountain1].randomElement();
+  }
+
+  static Future<ExplorationScreen> random(world) async {
+    var screen = ExplorationScreen._random();
+    await screen.runStartUpAnimation(world);
+    return screen;
+  }
+
+  Future<void> runStartUpAnimation(World world) async {
+    render(world);
+    for (var i = 5; i > 0; i--) {
+      shift += i * 2;
+      await waitMS(animationFrameTime);
+      if (i == 1) {
+        interactive = true;
+      }
+      render(world);
+    }
+    interactive = true;
+  }
+
+  Future<void> runPhaseOutAnimation(World world) async {
+    interactive = false;
+    for (var i = 1; i <= 5; i++) {
+      shift += i * 2;
+      render(world);
+      await waitMS(animationFrameTime);
+    }
   }
 
   @override
   String imageToRender(World world) {
     String screen = """
-              ${timeDisplay(world)}
+${timeDisplay(world)}
 $separationLine
-$environmentSprite
+${spriteShift(environmentSprite, shift)}
 
 ${playerMiniatureDisplay(world)}
 ${messageDisplay(message)}
 $separationLine
 
+""";
+    if (interactive) {
+      screen += """
 ${blue("[SPACE] explore")}
 ${blue("[S] open character stats")}
 """;
+    }
     return screen;
   }
 
   @override
-  Screen transitionOnInput(KeyCode keyCode, World world) {
+  Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
     if (keyCode == KeyCode.s) {
       return PlayerStatsScreen(previousScreen: this);
     }
     // explore:
     if (keyCode == KeyCode.space) {
+      await runPhaseOutAnimation(world);
       if (world.dayIsOver()) {
         return DayOverScreen();
       }
-      Map<double, Screen Function()> m = {
-        9.8: () {
+      Map<double, Future<Screen> Function()> m = {
+        9.8: () async {
           // go into a fight
           return FightScreen.random(explorationScreen: this);
         },
-        0.01: () {
-          // explore more, show a different screen than the one we already have
+        0.0: () async {
           world.increaseDayHour();
-          var newExplorationScreen = ExplorationScreen.random();
-          while (newExplorationScreen.environmentSprite == environmentSprite) {
-            newExplorationScreen = ExplorationScreen.random();
-          }
-          return newExplorationScreen;
+          return await ExplorationScreen.random(world);
         }
       };
-      return m.randomElement()();
+      return await m.randomElement()();
     }
     return this;
     // (world);

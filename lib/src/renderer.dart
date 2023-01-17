@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:colorize/colorize.dart';
 import 'package:dart_console/dart_console.dart';
 import 'package:rpg/rpg.dart';
 import 'package:rpg/src/monster.dart';
+import 'package:rpg/src/player.dart';
 
 Colorize yellow(String s) => Colorize(s).yellow();
 Colorize inverted(String s) => Colorize(s).bgWhite();
@@ -47,12 +50,19 @@ extension CutPad on String {
 }
 
 String timeDisplay(World world) {
-  return "${world.day + 1}. day, ${world.dayHour}:00";
+  return "              ${world.day + 1}. day, ${world.dayHour}:00";
 }
 
 String monsterLPDisplay(Monster monster) {
-  return red("${monster.name.padLeft(20)}  ${monster.lp}/${monster.maxlp}")
-      .toString();
+  return red("${monster.name}  ${monster.lp}/${monster.maxlp}").toString();
+}
+
+String monsterDmgDisplay(Monster monster) {
+  return red(monster.dmgFunctionString).toString();
+}
+
+String monsterIniDisplay(Monster monster) {
+  return red("Ini: ${monster.reflexesSkill}").toString();
 }
 
 String playerMiniatureDisplay(World world) {
@@ -61,10 +71,14 @@ String playerMiniatureDisplay(World world) {
       (") |>/<|                                    
       /X\  /                                     
      / X \/      Health  
-      / \                                                                                     
-     /   \     """;
+      / \        Dmg                                                                             
+     /   \       Ref           """;
   sprite = sprite.replaceFirst(
       "Health", red("${player.name}  ${player.lp}/${player.maxlp}").toString());
+  sprite = sprite.replaceFirst(
+      "Dmg", red(player.activeWeapon.dmgFunctionString).toString());
+  sprite = sprite.replaceFirst(
+      "Ref", red("Ini: ${player.skills[Skill.reflexes]!}").toString());
   return sprite;
 }
 
@@ -72,5 +86,17 @@ String messageDisplay(String? message) {
   if (message == null) {
     return "";
   }
-  return "\n$separationLine\n${yellow(message).toString()}";
+  return "\n$separationLine\n${message.split("\n").map((e) => yellow(e).toString()).join("\n")}";
+}
+
+String spriteShift(String sprite, int shift) {
+  if (shift == 0) return sprite;
+  return sprite.split("\n").map((l) {
+    if (shift > 0) {
+      return " " * shift +
+          l.substring(0, min(innerScreenWidth - shift, l.length));
+    } else {
+      return l.substring(min(-shift, l.length)).padRight(innerScreenWidth);
+    }
+  }).join("\n");
 }
