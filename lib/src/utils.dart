@@ -21,7 +21,7 @@ extension RandomRoll<T> on Map<double, T> {
         return this[k]!;
       }
     }
-    throw "Error!!! should never happen";
+    throw "should never happen";
   }
 
   double _sum() => keys.reduce((a, c) => a + c);
@@ -29,4 +29,39 @@ extension RandomRoll<T> on Map<double, T> {
 
 Future<void> waitMS(int ms) async {
   await Future.delayed(Duration(milliseconds: ms));
+}
+
+class MultiSet<T extends Comparable> {
+  Map<T, int> multiSet = {};
+
+  void add(T t) {
+    if (multiSet.containsKey(t)) {
+      multiSet[t] = multiSet[t]! + 1;
+    } else {
+      multiSet[t] = 1;
+    }
+  }
+
+  void addAll(Iterable<T> ts) {
+    for (final t in ts) {
+      add(t);
+    }
+  }
+
+  remove(T t) {
+    if (multiSet.containsKey(t)) {
+      int prevVal = multiSet[t]!;
+      if (prevVal <= 1) {
+        multiSet.remove(t);
+      } else {
+        multiSet[t] = prevVal - 1;
+      }
+    }
+  }
+
+  List<MapEntry<T, int>> toList() {
+    var list = multiSet.entries.toList();
+    list.sort((a, b) => a.key.compareTo(b.key));
+    return list;
+  }
 }

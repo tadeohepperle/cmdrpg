@@ -63,8 +63,7 @@ ${timeDisplay(world)}
 $separationLine
 ${spriteShift(environmentSprite, shift)}
 
-${playerMiniatureDisplay(world)}
-${messageDisplay(message)}
+${playerMiniatureDisplay(world)}${messageDisplay(message)}
 $separationLine
 
 """;

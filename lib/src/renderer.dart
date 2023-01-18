@@ -12,6 +12,7 @@ Colorize blue(String s) => Colorize(s).lightBlue();
 Colorize green(String s) => Colorize(s).lightGreen();
 Colorize red(String s) => Colorize(s).red();
 Colorize lightGray(String s) => Colorize(s).lightGray();
+Colorize white(String s) => Colorize(s).white();
 
 final console = Console();
 
@@ -59,11 +60,9 @@ String monsterLPDisplay(Monster monster) {
 }
 
 String monsterDmgDisplay(Monster monster) {
-  return red("${monster.weaponName}: ${monster.dmgFunctionString}").toString();
-}
-
-String monsterIniDisplay(Monster monster) {
-  return red("Ini: ${monster.reflexesSkill}").toString();
+  return white(
+          "${monster.weaponName} (${monster.attackSkill}): ${monster.dmgFunctionString}")
+      .toString();
 }
 
 String playerMiniatureDisplay(World world) {
@@ -71,14 +70,19 @@ String playerMiniatureDisplay(World world) {
   String sprite = r"""
       (") |>/<|   Health                            
       /X\  /      Dmg                             
-     / X \/            
-      / \         Xp                                                                             
-     /   \        Gold           """;
+     / X \/       Skill     
+      / \                                                                                      
+     /   \        Xp   Gold        
+     `    `          """;
   sprite = sprite.replaceFirst(
       "Health", red("${player.name}  ${player.lp}/${player.maxlp}").toString());
   sprite = sprite.replaceFirst(
       "Dmg",
-      red("${player.activeFightingSkill.name}: ${player.activeWeapon.dmgFunctionString}")
+      white("${player.activeWeapon.name}: ${player.activeWeapon.dmgFunctionString}")
+          .toString());
+  sprite = sprite.replaceFirst(
+      "Skill",
+      white("${player.activeWeapon.weaponSkill.name} (${player.skills[player.activeWeapon.weaponSkill]!})")
           .toString());
   sprite = sprite.replaceFirst("Xp", green("${player.xp} XP").toString());
   sprite =

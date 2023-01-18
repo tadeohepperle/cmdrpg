@@ -41,12 +41,11 @@ $separationLine
                 ${skillToText(Skill.dodge)}
                    ${skillToText(Skill.axe)}                           
                  ${skillToText(Skill.sword)}                            
-                ${skillToText(Skill.dagger)}                            
+                ${skillToText(Skill.brawling)}                            
                ${skillToText(Skill.throwing)}        
                ${skillToText(Skill.reflexes)}                      
 
 ${playerMiniatureDisplay(world)}            
-
 $separationLine
 
 ${blue("[${CLOSE_KEY.name.toUpperCase()}]  close screen")}
@@ -66,9 +65,7 @@ ${blue("[${DOWN_KEY.name.toUpperCase()}]  ⇩ choose skill below")}
       int i = activeSkill.index + (keyCode == UP_KEY ? -1 : 1);
       i = i.clamp(0, Skill.values.length - 1);
       activeSkill = Skill.values[i];
-
       render(world);
-      print(keyCode);
     }
     if (keyCode == ACCEPT_KEY) {
       var player = world.player;
@@ -79,8 +76,6 @@ ${blue("[${DOWN_KEY.name.toUpperCase()}]  ⇩ choose skill below")}
         player.skills[activeSkill] = player.skills[activeSkill]! + 1;
       }
     }
-
-    // todo: leveling
     return this;
   }
 

@@ -1,12 +1,14 @@
+import 'package:rpg/src/dices.dart';
+
 import 'item.dart';
 import 'utils.dart';
 
-enum Skill { search, dodge, axe, sword, dagger, throwing, reflexes }
+enum Skill { search, dodge, axe, sword, brawling, throwing, reflexes }
 
 class Player {
   Map<Skill, int> skills = {};
   String name;
-  List<Item> inventory = [];
+  MultiSet<Item> inventory = MultiSet();
   int gold = 0;
   int xp = 100;
   int lp = 20;
@@ -14,13 +16,23 @@ class Player {
 
   Player(this.name) {
     skills = randomStartingSkills();
+    inventory.addAll([
+      Item("roses"),
+      Weapon("short sword", () => d6, "d6 + 2",
+          value: 4, weaponSkill: Skill.sword),
+      Weapon("combat gloves", () => d6, "d6 + 1",
+          value: 4, weaponSkill: Skill.brawling)
+    ]);
   }
 
   Skill get activeFightingSkill => activeWeapon.weaponSkill;
 
-  Weapon get activeWeapon => _activeWeapon;
+  Weapon get activeWeapon => _activeWeaponFromInventory ?? _defaultBodyWeapon;
 
-  final Weapon _activeWeapon = Weapons.shortSword;
+  Weapon? _activeWeaponFromInventory;
+
+  final Weapon _defaultBodyWeapon = Weapon("fists", () => d6, "d6 - 1",
+      value: 0, weaponSkill: Skill.brawling);
 
   void takeDamage(int dmg) {
     lp -= dmg;

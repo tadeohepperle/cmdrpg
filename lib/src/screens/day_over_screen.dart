@@ -14,8 +14,7 @@ class DayOverScreen extends Screen {
 ${timeDisplay(world)}
 $separationLine
 $dayOver
-${playerMiniatureDisplay(world)}
-${messageDisplay("The day is over. \nTake a good rest.\nYou will heal.")}
+${playerMiniatureDisplay(world)}${messageDisplay("The day is over. \nTake a good rest.\nYou will heal.")}
 $separationLine
 
 ${blue("[${CONTINUE_KEY.name.toUpperCase()}] sleep tight.")}

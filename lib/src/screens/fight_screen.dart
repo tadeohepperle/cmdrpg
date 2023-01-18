@@ -36,8 +36,7 @@ $separationLine
                      ${monsterDmgDisplay(monster)}
            
 ${spriteShift(monster.sprite, monsterSpriteShift)}
-${spriteShift(playerMiniatureDisplay(world), playerSpriteShift)}
-${messageDisplay(message)}
+${spriteShift(playerMiniatureDisplay(world), playerSpriteShift)}${messageDisplay(message)}
 $separationLine
 
 """;
