@@ -1,3 +1,4 @@
+import 'package:rpg/src/loot.dart';
 import 'package:rpg/src/renderer.dart';
 
 abstract class Monster {
@@ -14,10 +15,14 @@ abstract class Monster {
 
   int Function() get dmgFunction;
   String get dmgFunctionString;
+  String get weaponName;
+
   int get lp;
   int get maxlp;
 
   bool get dead;
+
+  Loot get loot;
 }
 
 abstract class BaseMonster implements Monster {

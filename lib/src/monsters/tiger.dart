@@ -1,4 +1,6 @@
 import 'package:rpg/src/dices.dart';
+import 'package:rpg/src/item.dart';
+import 'package:rpg/src/loot.dart';
 import 'package:rpg/src/monster.dart';
 
 class Tiger extends BaseMonster {
@@ -28,4 +30,10 @@ class Tiger extends BaseMonster {
 
   @override
   String get dmgFunctionString => "d10";
+
+  @override
+  String get weaponName => "claws";
+
+  @override
+  Loot get loot => Loot(1, 2, [Item("fur"), Item("tiger head")]);
 }

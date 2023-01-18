@@ -8,16 +8,15 @@ class DeathScreen extends Screen {
   @override
   String imageToRender(World world) {
     String screen = """
+
 $reaper
 
 At some point everyone has to die.
 
 $separationLine
 
-${world.player.name} died 
-not so peacefully.
-He only lived for ${world.day}  ${world.day > 1 ? "days" : "day"}.
-
+${world.player.name} died not so peacefully.
+He only lived for ${world.day + 1} ${world.day + 1 > 1 ? "days" : "day"}.
 """;
     return screen;
   }

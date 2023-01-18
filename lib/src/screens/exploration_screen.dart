@@ -3,6 +3,7 @@ import 'package:rpg/rpg.dart';
 import 'package:rpg/src/screen.dart';
 import 'package:rpg/src/screens/day_over_screen.dart';
 import 'package:rpg/src/screens/fight_screen.dart';
+import 'package:rpg/src/screens/inventory_screen.dart';
 import 'package:rpg/src/screens/player_stats_screen.dart';
 import 'package:rpg/src/sprites.dart';
 import 'package:rpg/src/utils.dart';
@@ -16,6 +17,11 @@ class ExplorationScreen extends Screen {
   int shift = -30;
   String? message;
   bool interactive = false;
+
+  void reset() {
+    shift = 0;
+    interactive = true;
+  }
 
   ExplorationScreen._random() {
     environmentSprite =
@@ -64,8 +70,9 @@ $separationLine
 """;
     if (interactive) {
       screen += """
-${blue("[SPACE] explore")}
-${blue("[S] open character stats")}
+${blue("[${CONTINUE_KEY.name.toUpperCase()}]  explore")}
+${blue("[${CHARACTER_KEY.name.toUpperCase()}]  character skills")}
+${blue("[${INVENTORY_KEY.name.toUpperCase()}]  inventory")}
 """;
     }
     return screen;
@@ -73,11 +80,14 @@ ${blue("[S] open character stats")}
 
   @override
   Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
-    if (keyCode == KeyCode.s) {
-      return PlayerStatsScreen(previousScreen: this);
+    if (keyCode == CHARACTER_KEY) {
+      return CharacterScreen(previousScreen: this);
+    }
+    if (keyCode == INVENTORY_KEY) {
+      return InventoryScreen(previousScreen: this);
     }
     // explore:
-    if (keyCode == KeyCode.space) {
+    if (keyCode == CONTINUE_KEY) {
       await runPhaseOutAnimation(world);
       if (world.dayIsOver()) {
         return DayOverScreen();

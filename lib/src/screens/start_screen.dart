@@ -31,13 +31,13 @@ class StartScreen extends Screen {
           ||                
 
 """ +
-        " Hello ${world.player.name}, I wish you good luck\n on your journey!\n\n$separationLine\n\n${blue("[SPACE] start the game")}\n";
+        " Hello ${world.player.name}, I wish you good luck\n on your journey!\n\n$separationLine\n\n${blue("[${CONTINUE_KEY.name.toUpperCase()}]  start the game")}\n";
     return screen;
   }
 
   @override
   Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
-    if (keyCode == KeyCode.space) {
+    if (keyCode == CONTINUE_KEY) {
       return await ExplorationScreen.random(world);
     }
 

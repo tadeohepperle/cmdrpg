@@ -8,7 +8,7 @@ class Player {
   String name;
   List<Item> inventory = [];
   int gold = 0;
-  int xp = 0;
+  int xp = 100;
   int lp = 20;
   int maxlp = 20;
 

@@ -18,17 +18,18 @@ ${playerMiniatureDisplay(world)}
 ${messageDisplay("The day is over. \nTake a good rest.\nYou will heal.")}
 $separationLine
 
-${blue("[SPACE] sleep tight.")}
-${blue("[S] open character stats")}
+${blue("[${CONTINUE_KEY.name.toUpperCase()}] sleep tight.")}
+${blue("[${CHARACTER_KEY.name.toUpperCase()}] open character stats")}
 """;
+
     return screen;
   }
 
   @override
   Future<Screen> transitionOnInput(KeyCode keyCode, World world) async {
-    if (keyCode == KeyCode.s) {
-      return PlayerStatsScreen(previousScreen: this);
-    } else if (keyCode == KeyCode.space) {
+    if (keyCode == CHARACTER_KEY) {
+      return CharacterScreen(previousScreen: this);
+    } else if (keyCode == CONTINUE_KEY) {
       world.goToNextDay();
       return await ExplorationScreen.random(world);
     }

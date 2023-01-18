@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:dart_console/dart_console.dart';
+
 Map<int, KeyCode> intToKeyCode = {
   27: KeyCode.esc,
   32: KeyCode.space,
@@ -20,7 +22,9 @@ Map<int, KeyCode> intToKeyCode = {
   55: KeyCode.n7,
   56: KeyCode.n8,
   57: KeyCode.n9,
-  48: KeyCode.n0
+  48: KeyCode.n0,
+  38: KeyCode.up,
+  40: KeyCode.down,
 };
 
 enum KeyCode {
@@ -44,6 +48,8 @@ enum KeyCode {
   n8,
   n9,
   n0,
+  up,
+  down,
 }
 
 KeyCode waitForKey() {
@@ -55,3 +61,14 @@ KeyCode waitForKey() {
     }
   }
 }
+
+const ATTACK_KEY = KeyCode.w;
+const ESCAPE_KEY = KeyCode.s;
+const UP_KEY = KeyCode.w;
+const DOWN_KEY = KeyCode.s;
+const ACCEPT_KEY = KeyCode.e;
+const CLOSE_KEY = KeyCode.q;
+const CONTINUE_KEY = KeyCode.w;
+const SEARCH_KEY = KeyCode.s;
+const CHARACTER_KEY = KeyCode.e;
+const INVENTORY_KEY = KeyCode.d;
